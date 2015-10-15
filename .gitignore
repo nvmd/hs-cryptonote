@@ -1,0 +1,11 @@
+dist
+*.o
+*.hi
+*.chi
+*.chs.h
+.virthualenv
+.cabal-sandbox/
+cabal.sandbox.config
+
+*.sublime-project
+*.sublime-workspace

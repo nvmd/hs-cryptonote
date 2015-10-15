@@ -1,0 +1,59 @@
+name:                hs-cryptonote
+version:             0.1.0.0
+synopsis:            An implementation of the CryptoNote protocol in Haskell
+-- description:         
+homepage:            https://github.com/nvmd/hs-cryptonote
+bug-reports:         https://github.com/nvmd/hs-cryptonote/issues
+license:             MIT
+license-file:        LICENSE
+author:              Sergey Kazenyuk <kazenyuk@gmail.com>
+maintainer:          Sergey Kazenyuk <kazenyuk@gmail.com>
+copyright:           (c) 2015 Sergey Kazenyuk <kazenyuk@gmail.com>
+category:            Finance, Network
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  exposed-modules:     Network.CryptoNote.Crypto.Hash,
+                       Network.CryptoNote.Crypto.Signature,
+                       Network.CryptoNote.Crypto.Types,
+                       Network.CryptoNote.Block,
+                       Network.CryptoNote.Identifiable,
+                       Network.CryptoNote.Transaction
+  other-modules:       Network.CryptoNote.Crypto.HashFFI
+  -- other-extensions:    
+  include-dirs:        currency/src,
+                       currency/src/crypto,
+                       currency/contrib/epee/include
+  -- ghc-options:         -Wall
+  build-depends:         base
+                       , binary
+                       , bytestring
+                       , base16-bytestring
+                       , largeword
+                       , uuid
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+
+test-suite tests
+  type:                exitcode-stdio-1.0
+  main-is:             Main.hs
+  other-modules:       TestData
+  -- other-extensions:    
+  extra-lib-dirs:      currency/build/release/src/crypto
+  -- include-dirs:        
+  extra-libraries:     crypto
+  -- ghc-options:         -Wall
+  build-depends:         base
+                       , hs-cryptonote
+                       , binary
+                       , bytestring
+                       , base16-bytestring
+                       , HUnit
+                       , QuickCheck
+                       , test-framework
+                       , test-framework-hunit
+                       , test-framework-quickcheck2
+  hs-source-dirs:      test/src
+  default-language:    Haskell2010
