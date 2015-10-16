@@ -7,18 +7,34 @@ module Network.CryptoNote.Crypto.Types ( Hash
                                        ) where
 
 import Data.LargeWord
+import Data.Binary (Binary (..))
+import Control.Applicative ((<$>), (<*>))
 
 -- crypto/hash.h
 
 type Hash = Word256
 
 
-type PublicKey = Word256
+-- crypto/crypto.h
 
-type SecretKey = Word256
+type PublicKey = EllipticCurvePoint
+type SecretKey = EllipticCurveScalar
+type KeyDerivation = EllipticCurvePoint
+type KeyImage = EllipticCurvePoint
 
-type KeyDerivation = Word256
+data Signature = Signature {
+  c :: EllipticCurveScalar,
+  r :: EllipticCurveScalar
+} deriving (Eq, Show)
 
-type KeyImage = Word256
+instance Binary Signature where
+  put (Signature c r) = do
+    put c
+    put r
+  get = Signature <$> get <*> get
 
-type Signature = LargeKey Word256 Word256
+
+-- crypto/crypto.h
+
+type EllipticCurvePoint = Word256
+type EllipticCurveScalar = Word256
