@@ -1,7 +1,9 @@
 module Network.CryptoNote.Crypto.Types ( Hash
-                                       , Signature
                                        , PublicKey
+                                       , SecretKey
+                                       , KeyDerivation
                                        , KeyImage
+                                       , Signature
                                        ) where
 
 import Data.LargeWord
@@ -10,14 +12,13 @@ import Data.LargeWord
 
 type Hash = Word256
 
--- STUB
-data Signature = Signature
-                 deriving (Eq, Show)
 
--- STUB
-data PublicKey = PublicKey
-                 deriving (Eq, Show)
+type PublicKey = Word256
 
--- STUB
-data KeyImage = KeyImage
-                deriving (Eq, Show)
+type SecretKey = Word256
+
+type KeyDerivation = Word256
+
+type KeyImage = Word256
+
+type Signature = LargeKey Word256 Word256
