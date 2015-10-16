@@ -20,7 +20,9 @@ library
                        Network.CryptoNote.Crypto.Types,
                        Network.CryptoNote.Block,
                        Network.CryptoNote.Identifiable,
-                       Network.CryptoNote.Transaction
+                       Network.CryptoNote.Transaction,
+                       Network.CryptoNote.Transaction.Input,
+                       Network.CryptoNote.Transaction.Output
   other-modules:       Network.CryptoNote.Crypto.HashFFI
   -- other-extensions:    
   include-dirs:        currency/src,

@@ -1,8 +1,10 @@
 module Network.CryptoNote.Transaction where
 
-import Network.CryptoNote.Crypto.Hash
-import Network.CryptoNote.Crypto.Signature
 import Network.CryptoNote.Identifiable
+import Network.CryptoNote.Crypto.Types (Signature)
+import Network.CryptoNote.Transaction.Input (TransactionInput)
+import Network.CryptoNote.Transaction.Output (TransactionOutput)
+import Network.CryptoNote.Crypto.Hash (cryptoNightFast)
 
 import Data.Word (Word64, Word8)
 import Data.ByteString
@@ -10,23 +12,8 @@ import Data.ByteString
 import Data.Binary (Binary(..), encode)
 import Data.ByteString.Lazy (toStrict)
 
+
 -- cryptonote_core/cryptonote_basic.h
-
-data TransactionInput = TIGen
-                      | TIToScript
-                      | TIToScriptHash
-                      | TIToKey
-                      deriving (Eq, Show)
-
-data TransactionOutputTarget = TOTToScript
-                             | TOTToScriptHash
-                             | TOTToKey
-                             deriving (Eq, Show)
-
-data TransactionOutput = TransactionOutput {
-  amount :: Word64,
-  target :: TransactionOutputTarget
-} deriving (Eq, Show)
 
 data TransactionPrefix = TransactionPrefix {
   version    :: Word64,
