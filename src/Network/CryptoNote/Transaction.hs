@@ -18,8 +18,8 @@ import Data.ByteString.Lazy (toStrict)
 data TransactionPrefix = TransactionPrefix {
   version    :: Word64,
   unlockTime :: Word64,
-  vin        :: [TransactionInput],
-  vout       :: [TransactionOutput],
+  inputs     :: [TransactionInput],
+  outputs    :: [TransactionOutput],
   extra      :: [Word8]
 } deriving (Eq, Show)
 
