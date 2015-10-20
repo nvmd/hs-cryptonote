@@ -1,8 +1,15 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Network.CryptoNote.Transaction.Input where
 
 import Network.CryptoNote.Crypto.Types (KeyImage)
 
 import Data.Word (Word64, Word32, Word8)
+
+import Data.Aeson
+import Data.Aeson.Types (typeMismatch)
+import GHC.Generics
 
 
 -- cryptonote_core/cryptonote_basic.h
@@ -16,13 +23,36 @@ data TransactionInput = TIGen              TransactionInFromGen
 
 data TransactionInFromGen = TransactionInFromGen {
   height :: Word64 -- size_t. uint32_t in bytecoin
-} deriving (Eq, Show)
+} deriving (Eq, Show, Generic)
 
 data TransactionInFromKey = TransactionInFromKey {
   amount         :: Word64,
   outputsIndexes :: [Word64], -- a.k.a keyOffsets. uint64_t. uint32_t in bytecoin
-  keyImage       :: KeyImage
-} deriving (Eq, Show)
+  keyImage       :: KeyImage -- double-spending protection
+} deriving (Eq, Show, Generic)
+
+
+instance ToJSON TransactionInput where
+  toJSON (TIGen gen)   = object [ "gen" .= gen ]
+  toJSON (TIToKey key) = object [ "key" .= key ]
+  -- TODO: toEncoding
+
+instance FromJSON TransactionInput where
+  parseJSON (Object v) = undefined  -- TODO
+  parseJSON invalid    = typeMismatch "TransactionInput" invalid
+
+
+instance ToJSON TransactionInFromGen where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromJSON TransactionInFromGen
+
+
+instance ToJSON TransactionInFromKey where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromJSON TransactionInFromKey
+
 
 -- Currently unused, but up-to-date
 

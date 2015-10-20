@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import Test.Framework
@@ -14,7 +16,8 @@ import Network.CryptoNote.Identifiable as Identifiable
 import qualified Network.CryptoNote.Crypto.Hash as Hash (cryptoNightFast, cryptoNightSlow)
 import Network.CryptoNote.Crypto.Types (Hash(..))
 
-import Data.Binary (encode, decode)
+import qualified Data.Binary as BIN (encode, decode)
+import qualified Data.Aeson as JSON (encode, decode)
 
 import qualified TestData as D
 
@@ -22,26 +25,33 @@ main :: IO ()
 main = defaultMain tests
 
 
-tests = hUnitTestToTests $ test [ 
+tests = hUnitTestToTests $ test [
   "entityDecode_BytesToEntity" ~: decodeBytesToEntity,
   "entityId_OnEntities"        ~: entityId,
-  "cnFastHash_OnRawBytes"      ~: cnFastHash
+  "cnFastHash_OnRawBytes"      ~: cnFastHash,
+  "jsonEncode"                 ~: jsonEncode
   ]
 
 decodeBytesToEntity = test
   [ "Tx0" ~:
      D.txBodyEntity 0
-     ~=? (decode $ BL.fromStrict $ D.txBodyBytes 0 :: Transaction)
+     ~=? (BIN.decode $ BL.fromStrict $ D.txBodyBytes 0 :: Transaction)
   ]
 
 entityId = test
   [ "Tx0 Id" ~:
-     (decode $ BL.fromStrict $ D.txIdBytes 0 :: Hash)
+     (BIN.decode $ BL.fromStrict $ D.txIdBytes 0 :: Hash)
      ~=? (Identifiable.id $ D.txBodyEntity 0 :: Hash)
   ]
 
 cnFastHash = test
   [ "Tx0 Id" ~:
      D.txIdBytes 0
-     ~=? (BL.toStrict $ encode $ Hash.cryptoNightFast $ D.txBodyBytes 0)
+     ~=? (BL.toStrict $ BIN.encode $ Hash.cryptoNightFast $ D.txBodyBytes 0)
+  ]
+
+jsonEncode = test
+  [ "Empty Tx" ~:
+    "{\"version\":0,\"unlockTime\":0,\"inputs\":[],\"outputs\":[],\"extra\":[],\"signatures\":[]}"
+    ~=? (JSON.encode $ D.txBodyEntity 0)
   ]

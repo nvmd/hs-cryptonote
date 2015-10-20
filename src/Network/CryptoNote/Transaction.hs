@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 module Network.CryptoNote.Transaction where
 
 import Network.CryptoNote.Identifiable
@@ -11,6 +13,11 @@ import Data.ByteString
 
 import Data.Binary (Binary(..), encode)
 import Data.ByteString.Lazy (toStrict)
+import Data.Aeson (ToJSON (..),
+                   FromJSON (..),
+                   genericToEncoding,
+                   defaultOptions)
+import GHC.Generics
 
 
 -- cryptonote_core/cryptonote_basic.h
@@ -21,16 +28,30 @@ data TransactionPrefix = TransactionPrefix {
   inputs     :: [TransactionInput],
   outputs    :: [TransactionOutput],
   extra      :: [Word8]
-} deriving (Eq, Show)
+} deriving (Eq, Show, Generic)
 
 data Transaction = Transaction {
   prefix     :: TransactionPrefix,
   signatures :: [[Signature]]
-} deriving (Eq, Show)
+} deriving (Eq, Show, Generic)
+
 
 instance Identifiable Transaction where
   id = cryptoNightFast . toStrict . encode
 
+
 instance Binary Transaction where
   put = undefined
   get = undefined
+
+
+instance ToJSON TransactionPrefix where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromJSON TransactionPrefix
+
+
+instance ToJSON Transaction where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromJSON Transaction
