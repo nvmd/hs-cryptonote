@@ -25,11 +25,14 @@ library
                        Network.CryptoNote.Transaction.Input,
                        Network.CryptoNote.Transaction.Output,
                        Network.CryptoNote.Types
-  other-modules:       Network.CryptoNote.Crypto.HashFFI
+  other-modules:       Network.CryptoNote.Crypto.HashFFI,
+                       Network.CryptoNote.Serialization.FFI
   -- other-extensions:
+  c-sources:           cbits/cryptonote_serialization_wrappers.c
   include-dirs:        currency/src,
                        currency/src/crypto,
-                       currency/contrib/epee/include
+                       currency/contrib/epee/include,
+                       cbits
   ghc-options:         -Wall -rtsopts
   build-depends:         base
                        , binary
