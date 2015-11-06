@@ -5,7 +5,7 @@ module Network.CryptoNote.Transaction.Input where
 
 import Network.CryptoNote.Crypto.Types (KeyImage)
 
-import Data.Word (Word64, Word32, Word8)
+import Data.Word (Word64)
 
 import Data.Aeson
 import Data.Aeson.Types (typeMismatch)
@@ -16,7 +16,7 @@ import GHC.Generics
 
 data TransactionInput = TIGen              TransactionInFromGen
                       | TIToKey            TransactionInFromKey
-                      -- | TIToMultisignature TransactionInFromMultisignature -- lates
+                      -- | TIToMultisignature TransactionInFromMultisignature -- latest
                       -- | TIToScript         TransactionInFromScript -- unused
                       -- | TIToScriptHash     TransactionInFromScriptHash -- unused
                       deriving (Eq, Show)
@@ -38,7 +38,7 @@ instance ToJSON TransactionInput where
   -- TODO: toEncoding
 
 instance FromJSON TransactionInput where
-  parseJSON (Object v) = undefined  -- TODO
+  parseJSON (Object _) = undefined  -- TODO
   parseJSON invalid    = typeMismatch "TransactionInput" invalid
 
 

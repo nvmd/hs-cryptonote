@@ -6,16 +6,14 @@ module Network.CryptoNote.Crypto.HashFFI ( cnFastHash
                                          ) where
 
 import Foreign
-import Foreign.Storable
 import Foreign.C
-import Foreign.Ptr
 
 import System.IO.Unsafe
 
 import Data.ByteString as B hiding (map)
 import Data.ByteString.Char8 as BC (pack)
 import Data.ByteString.Lazy.Char8 as BLC (fromStrict)
-import Data.Binary (encode, decode)
+import Data.Binary (decode)
 
 import Network.CryptoNote.Crypto.Types (Hash (..))
 

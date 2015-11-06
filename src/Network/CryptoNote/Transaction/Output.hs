@@ -5,7 +5,7 @@ module Network.CryptoNote.Transaction.Output where
 
 import Network.CryptoNote.Crypto.Types (PublicKey)
 
-import Data.Word (Word64, Word8)
+import Data.Word (Word64)
 
 import Data.Aeson
 import Data.Aeson.Types (typeMismatch)
@@ -42,7 +42,7 @@ instance ToJSON TransactionOutputTarget where
   -- TODO: toEncoding
 
 instance FromJSON TransactionOutputTarget where
-  parseJSON (Object v) = undefined  -- TODO
+  parseJSON (Object _) = undefined  -- TODO
   parseJSON invalid    = typeMismatch "TransactionOutputTarget" invalid
 
 

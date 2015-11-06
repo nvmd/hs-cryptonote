@@ -9,7 +9,6 @@ import Network.CryptoNote.Transaction.Output (TransactionOutput)
 import Network.CryptoNote.Crypto.Hash (cryptoNightFast)
 
 import Data.Word (Word64, Word8)
-import Data.ByteString
 
 import Data.Binary (Binary(..), encode)
 import Data.ByteString.Lazy (toStrict)

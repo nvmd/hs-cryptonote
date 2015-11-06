@@ -3,10 +3,8 @@ module Network.CryptoNote.Block.PoW ( pow
 
 import Network.CryptoNote.Block.Types (Block (..), hashingBlob)
 import Network.CryptoNote.Crypto.Types (Hash)
-import Network.CryptoNote.Crypto.Hash (cryptoNightSlow, tree)
-import qualified Network.CryptoNote.Identifiable as Id
+import Network.CryptoNote.Crypto.Hash (cryptoNightSlow)
 
-import Data.Binary (encode)
 import Data.ByteString.Lazy (toStrict)
 
 
