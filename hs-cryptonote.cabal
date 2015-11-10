@@ -14,6 +14,10 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+flag enable_debug_commands
+  description:         Enable node debug commands
+  default:             True
+
 library
   exposed-modules:     Network.CryptoNote.Crypto.Hash,
                        Network.CryptoNote.Crypto.Signature,
@@ -24,8 +28,16 @@ library
                        Network.CryptoNote.Transaction,
                        Network.CryptoNote.Transaction.Input,
                        Network.CryptoNote.Transaction.Output,
-                       Network.CryptoNote.Types
+                       Network.CryptoNote.Types,
+                       Network.Levin.Command.Handshake,
+                       Network.Levin.Command.Ping,
+                       Network.Levin.Command.TimedSync,
+                       Network.Levin.Message,
+                       Network.Levin.Peer
   other-modules:       Network.CryptoNote.Crypto.HashFFI
+  if flag(enable_debug_commands)
+    other-modules:     Network.Levin.Command.Debug
+    ghc-options:       -DENABLE_DEBUG_COMMANDS
   -- other-extensions:
   include-dirs:        currency/src,
                        currency/src/crypto,
