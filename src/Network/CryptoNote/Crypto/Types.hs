@@ -1,7 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Network.CryptoNote.Crypto.Types ( Hash
-                                       , PublicKey
+module Network.CryptoNote.Crypto.Types ( PublicKey
                                        , SecretKey
                                        , KeyDerivation
                                        , KeyImage
@@ -14,10 +13,6 @@ import Control.Applicative ((<$>), (<*>))
 
 import Data.Aeson
 import GHC.Generics
-
--- crypto/hash.h
-
-type Hash = Word256
 
 
 -- crypto/crypto.h

@@ -16,6 +16,10 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Network.CryptoNote.Crypto.Hash,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightFast,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightSlow,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightTree,
+                       Network.CryptoNote.Crypto.Hash.Types,
                        Network.CryptoNote.Crypto.Signature,
                        Network.CryptoNote.Crypto.Types,
                        Network.CryptoNote.Block.PoW,
@@ -25,7 +29,7 @@ library
                        Network.CryptoNote.Transaction.Input,
                        Network.CryptoNote.Transaction.Output,
                        Network.CryptoNote.Types
-  other-modules:       Network.CryptoNote.Crypto.HashFFI
+  other-modules:       Network.CryptoNote.Crypto.Hash.FFI
   -- other-extensions:
   include-dirs:        currency/src,
                        currency/src/crypto,

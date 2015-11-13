@@ -13,8 +13,7 @@ import qualified Data.ByteString.Lazy as BL (toStrict, fromStrict)
 
 import Network.CryptoNote.Transaction as Transaction
 import Network.CryptoNote.Identifiable as Identifiable
-import qualified Network.CryptoNote.Crypto.Hash as Hash (cryptoNightFast, cryptoNightSlow)
-import Network.CryptoNote.Crypto.Types (Hash(..))
+import Network.CryptoNote.Crypto.Hash as Hash
 
 import qualified Data.Binary as BIN (encode, decode)
 import qualified Data.Aeson as JSON (encode, decode)
@@ -40,8 +39,8 @@ decodeBytesToEntity = test
 
 entityId = test
   [ "Tx0 Id" ~:
-     (BIN.decode $ BL.fromStrict $ D.txIdBytes 0 :: Hash)
-     ~=? (Identifiable.id $ D.txBodyEntity 0 :: Hash)
+     (BIN.decode $ BL.fromStrict $ D.txIdBytes 0 :: Hash Id)
+     ~=? (Identifiable.id $ D.txBodyEntity 0 :: Hash Id)
   ]
 
 cnFastHash = test

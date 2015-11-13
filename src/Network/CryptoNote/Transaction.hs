@@ -6,7 +6,7 @@ import Network.CryptoNote.Identifiable
 import Network.CryptoNote.Crypto.Types (Signature)
 import Network.CryptoNote.Transaction.Input (TransactionInput)
 import Network.CryptoNote.Transaction.Output (TransactionOutput)
-import Network.CryptoNote.Crypto.Hash (cryptoNightFast)
+import Network.CryptoNote.Crypto.Hash (hash)
 
 import Data.Word (Word64, Word8)
 
@@ -36,7 +36,7 @@ data Transaction = Transaction {
 
 
 instance Identifiable Transaction where
-  id = cryptoNightFast . toStrict . encode
+  id = hash . toStrict . encode
 
 
 instance Binary Transaction where
