@@ -14,6 +14,10 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+flag use_cryptonote_crypto
+  description:         Use CryptoNote's cryptography implementation
+  default:             False
+
 library
   exposed-modules:     Network.CryptoNote.Crypto.Hash,
                        Network.CryptoNote.Crypto.Hash.CryptoNightFast,
@@ -35,6 +39,8 @@ library
                        currency/src/crypto,
                        currency/contrib/epee/include
   ghc-options:         -Wall -rtsopts
+  if flag(use_cryptonote_crypto)
+    cpp-options:       -DUSE_FFI_CRYPTO
   build-depends:         base
                        , binary
                        , bytestring
@@ -42,6 +48,8 @@ library
                        , largeword
                        , uuid
                        , aeson
+                       , cryptonite >= 0.9
+                       , memory
   hs-source-dirs:      src
   default-language:    Haskell2010
 
