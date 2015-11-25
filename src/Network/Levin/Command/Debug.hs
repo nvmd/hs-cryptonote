@@ -1,8 +1,5 @@
 module Network.Levin.Command.Debug where
 
-import Data.Word (Word64)
-import Data.Binary (Binary)
-
 import Network.Levin.Peer (PeerId)
 
 
@@ -14,18 +11,14 @@ import Network.Levin.Peer (PeerId)
 -- These commands are considered as insecure, and made in debug purposes for a limited lifetime.
 -- Anyone who feel unsafe with this commands can disable the ALLOW_GET_STAT_COMMAND macro.
 
-data Binary s =>
-     ProofOfTrust s = ProofOfTrust
-         { peerId    :: PeerId
-         , time      :: Word64
-         , signature :: s       -- ^ Network.CryptoNote.Crypto.Types (Signature)
-         } deriving (Show, Eq)
-
 data CommandRequestStatInfo p = CommandRequestStatInfo
+                              deriving (Show, Eq)
 
 data CommandRequestNetworkState = CommandRequestNetworkState
+                                deriving (Show, Eq)
 
 data CommandRequestPeerId = CommandRequestPeerIdReq
                           | CommandRequestPeerIdResp
                             { peerId :: PeerId
                             }
+                          deriving (Show, Eq)

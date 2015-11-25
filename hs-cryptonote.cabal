@@ -43,7 +43,8 @@ library
                        Network.Levin.Peer
   other-modules:       Network.CryptoNote.Crypto.Hash.FFI
   if flag(enable_debug_commands)
-    other-modules:     Network.Levin.Command.Debug
+    other-modules:     Network.Levin.Command.Debug,
+                       Network.Levin.ProofOfTrust
     ghc-options:       -DENABLE_DEBUG_COMMANDS
   -- other-extensions:
   include-dirs:        currency/src,
