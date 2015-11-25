@@ -33,12 +33,21 @@ data TransactionInFromKey = TransactionInFromKey {
 
 
 instance ToJSON TransactionInput where
-  toJSON (TIGen gen)   = object [ "gen" .= gen ]
+  toJSON (TIGen   gen) = object [ "gen" .= gen ]
   toJSON (TIToKey key) = object [ "key" .= key ]
   -- TODO: toEncoding
 
 instance FromJSON TransactionInput where
-  parseJSON (Object _) = undefined  -- TODO
+  parseJSON (Object v) = do
+    -- v is 'fromList [("height",Number 0.0)]' for "{\"gen\":{\"height\":0}}"
+    -- v is 'fromList [("outputsIndexes",Array [Number 1.0,Number 2.0,Number 34.0]),("amount",Number 0.0),("keyImage",Object (fromList []))]' for "{\"key\":{\"outputsIndexes\":[1,2,34],\"amount\":0,\"keyImage\":{}}}"
+    -- TODO: why does the outer key (gen or key) get stripped?
+    gen <- v .:? "gen"
+    key <- v .:? "key"
+    case (gen, key) of
+      (Just g,  Nothing) -> return g
+      (Nothing, Just k)  -> return k
+      (_, _)             -> typeMismatch "TransactionInput (type)" (Object v)
   parseJSON invalid    = typeMismatch "TransactionInput" invalid
 
 

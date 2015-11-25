@@ -14,12 +14,19 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+flag use_cryptonote_crypto
+  description:         Use CryptoNote's cryptography implementation
+  default:             False
 flag enable_debug_commands
   description:         Enable node debug commands
   default:             True
 
 library
   exposed-modules:     Network.CryptoNote.Crypto.Hash,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightFast,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightSlow,
+                       Network.CryptoNote.Crypto.Hash.CryptoNightTree,
+                       Network.CryptoNote.Crypto.Hash.Types,
                        Network.CryptoNote.Crypto.Signature,
                        Network.CryptoNote.Crypto.Types,
                        Network.CryptoNote.Block.PoW,
@@ -34,7 +41,7 @@ library
                        Network.Levin.Command.TimedSync,
                        Network.Levin.Message,
                        Network.Levin.Peer
-  other-modules:       Network.CryptoNote.Crypto.HashFFI
+  other-modules:       Network.CryptoNote.Crypto.Hash.FFI
   if flag(enable_debug_commands)
     other-modules:     Network.Levin.Command.Debug
     ghc-options:       -DENABLE_DEBUG_COMMANDS
@@ -43,6 +50,8 @@ library
                        currency/src/crypto,
                        currency/contrib/epee/include
   ghc-options:         -Wall -rtsopts
+  if flag(use_cryptonote_crypto)
+    cpp-options:       -DUSE_FFI_CRYPTO
   build-depends:         base
                        , binary
                        , bytestring
@@ -50,6 +59,8 @@ library
                        , largeword
                        , uuid
                        , aeson
+                       , cryptonite >= 0.9
+                       , memory
   hs-source-dirs:      src
   default-language:    Haskell2010
 

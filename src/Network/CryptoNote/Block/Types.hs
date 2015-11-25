@@ -3,8 +3,7 @@ module Network.CryptoNote.Block.Types ( BlockHeader (..)
                                       , hashingBlob
                                       ) where
 
-import Network.CryptoNote.Crypto.Hash (cryptoNightFast, tree)
-import Network.CryptoNote.Crypto.Types (Hash)
+import Network.CryptoNote.Crypto.Hash
 import Network.CryptoNote.Identifiable as Id
 import Network.CryptoNote.Transaction
 import Network.CryptoNote.Types (toVarInt)
@@ -21,17 +20,17 @@ import Data.ByteString.Lazy as BL (ByteString, toStrict, concat)
 data BlockHeader = BlockHeader { majorVersion :: Word8
                                , minorVersion :: Word8
                                , timestamp    :: Word64
-                               , prevId       :: Hash
+                               , prevId       :: Hash Id
                                , nonce        :: Word32
                                } deriving (Eq, Show)
 
 data Block = Block { header   :: BlockHeader
                    , minerTx  :: Transaction
-                   , txHashes :: [Hash]
+                   , txHashes :: [Hash Id]
                    } deriving (Eq, Show)
 
 instance Identifiable Block where
-  id = cryptoNightFast . toStrict . hashingBlob
+  id = hash . toStrict . hashingBlob
 
 instance Binary Block where
   put = undefined
@@ -50,5 +49,5 @@ hashingBlob block = BL.concat [blockBlob, treeRootBlob, txCountBlob]
                         txCountBlob  = encode $ toVarInt txCount
 
 -- get_tx_tree_hash
-txTreeHash :: Block -> Hash
+txTreeHash :: Block -> Hash Merkle
 txTreeHash b = tree (Id.id (minerTx b) : txHashes b)
