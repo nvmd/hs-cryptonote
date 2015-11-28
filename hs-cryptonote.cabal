@@ -17,8 +17,8 @@ cabal-version:       >=1.10
 flag use_cryptonote_crypto
   description:         Use CryptoNote's cryptography implementation
   default:             False
-flag enable_debug_commands
-  description:         Enable node debug commands
+flag enable_p2p_node_debug_commands
+  description:         Enable P2P node debug commands
   default:             True
 
 library
@@ -36,16 +36,16 @@ library
                        Network.CryptoNote.Transaction.Input,
                        Network.CryptoNote.Transaction.Output,
                        Network.CryptoNote.Types,
+                       Network.Levin.Command.Debug,
                        Network.Levin.Command.Handshake,
                        Network.Levin.Command.Ping,
                        Network.Levin.Command.TimedSync,
                        Network.Levin.Message,
-                       Network.Levin.Peer
-  other-modules:       Network.CryptoNote.Crypto.Hash.FFI
-  if flag(enable_debug_commands)
-    other-modules:     Network.Levin.Command.Debug,
+                       Network.Levin.Peer,
                        Network.Levin.ProofOfTrust
-    ghc-options:       -DENABLE_DEBUG_COMMANDS
+  other-modules:       Network.CryptoNote.Crypto.Hash.FFI
+  if flag(enable_p2p_node_debug_commands)
+    cpp-options:       -DENABLE_P2P_NODE_DEBUG_COMMANDS
   -- other-extensions:
   include-dirs:        currency/src,
                        currency/src/crypto,
