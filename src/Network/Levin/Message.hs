@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 
-module Network.Levin.Message where
+module Network.Levin.Message (Message) where
 
 import Data.Binary (Binary)
 
@@ -14,10 +14,15 @@ import Network.Levin.Command.Debug
 -- p2p_protocol_defs.h
 
 data (Binary hp, Binary tp, Binary si) =>
-     Message hp tp si = MHandshake       (CommandHandshake hp)
-                      | MTimedSync       (CommandTimedSync tp)
-                      | MPing            CommandPing
-                      | MReqStatInfo     (CommandRequestStatInfo si) -- ^ Debug command.
-                      | MReqNetworkState CommandRequestNetworkState  -- ^ Debug command.
-                      | MReqPeerId       CommandRequestPeerId        -- ^ Debug command.
-                      deriving (Show, Eq)
+     LevinMessage hp tp si = LMHandshake       (CommandHandshake hp)
+                           | LMTimedSync       (CommandTimedSync tp)
+                           | LMPing            CommandPing
+                           | LMReqStatInfo     (CommandRequestStatInfo si) -- ^ Debug command.
+                           | LMReqNetworkState CommandRequestNetworkState  -- ^ Debug command.
+                           | LMReqPeerId       CommandRequestPeerId        -- ^ Debug command.
+                           deriving (Show, Eq)
+
+data (Binary hp, Binary tp, Binary si, Binary a) =>
+     Message hp tp si a = P2P (LevinMessage hp tp si)
+                        | Application a
+                        deriving (Show, Eq)

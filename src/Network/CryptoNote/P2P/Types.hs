@@ -16,16 +16,15 @@ import Network.CryptoNote.P2P.Command.Chain.Response (ResponseChainEntry)
 -- cryptonote_protocol_handler.h
 -- cryptonote_protocol_defs.h
 
-type P2PProtocolMessage      = Levin.Message CoreSyncData CoreSyncData CoreStatInfo
-type CurrencyProtocolMessage = Message
+type Message = Levin.Message CoreSyncData CoreSyncData CoreStatInfo CurrencyMessage
 
-data Message = MNotifyNewBlock NotifyNewBlock
-             | MNotifyNewTx    NotifyNewTransactions
-             | MReqGetObjects  RequestGetObjects
-             | MRespGetObjects ResponseGetObjects
-             | MReqChain       RequestChain
-             | MRespChainEntry ResponseChainEntry
-             deriving (Show, Eq)
+data CurrencyMessage = CMNotifyNewBlock NotifyNewBlock
+                     | CMNotifyNewTx    NotifyNewTransactions
+                     | CMReqGetObjects  RequestGetObjects
+                     | CMRespGetObjects ResponseGetObjects
+                     | CMReqChain       RequestChain
+                     | CMRespChainEntry ResponseChainEntry
+                     deriving (Show, Eq)
 
 
 data ConnectionInfo = ConnectionInfo
